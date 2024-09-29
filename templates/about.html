@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom styles for disturbance video overlay */
+    #disturbance-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+  <div class="grid grid-cols-10 h-screen">
+    <!-- Left side for about information (70%) -->
+    <div class="col-span-7 bg-gray-800 flex flex-col items-start justify-start p-8">
+      <h1 class="text-4xl font-bold text-white mb-4">About john-john.nu</h1>
+      <p class="text-lg leading-7 text-gray-400 mb-6">
+        john-john.nu is running on Pythons Flask application. Using a little bit of Tailwind and a whole lotta JavaScript
+        the idea was to give it a livestreaming vibe, only where the actual streaming is done by my avatar.<br>
+        For the logic of the avatar I am sending API calls to a ChatGPT 4o-mini model that has been pre-prompted 
+        with some basic information regarding my references and typing traits. <br>
+        The ChatGPT response is thereafter ran through a text-to-speech API service hosted at ElevenLabs, where I once again
+        trained the model to resemble myself but this time with my voice instead of reasoning. As a sidenote I am very happy 
+        with hearing myself speaking english with seemingly perfect pronounciation.
+      </p>
+      <p class="text-lg leading-7 text-gray-400 mb-6">
+        Once all that was done I just had to record a minute of myself typing away at night in front of the computer.
+        The demo video is not recorded by me, it is made with an AI avatar following a script I wrote, I was very impressed 
+        with it seeing as it only required one minute of uploaded content to train the model. The company whose model
+        I used for this was HeyGen. <br><br>
+        <strong>All in all I am using a minute of video and a minute of recorded audio for the total training of AI models.</strong>
+      </p>
+    </div>
+
+    <!-- Right side for avatar video (30%) -->
+    <div class="col-span-3 relative bg-gray-900 flex flex-col items-center justify-start pt-16">
+        <!-- Container for the video, with padding, border, and fixed size -->
+        <div class="relative w-4/5 max-w-sm p-4 bg-gray-600 rounded-lg shadow-lg mb-8">
+          <!-- Idle avatar video -->
+          <video id="avatar-video" class="w-full h-auto object-cover rounded-lg" autoplay muted loop>
+            <source src="/static/videos/WIN_20240927_19_23_19_Pro.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+  
+          <!-- Disturbance video overlay -->
+          <video id="disturbance-video" class="absolute inset-0 w-full h-full object-cover rounded-lg" muted>
+            <source src="/static/videos/moving_disturbance_01.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+  
+        <!-- Back to main page button -->
+        <a href="/" class="px-6 py-2 bg-gray-600 text-white rounded-lg shadow hover:bg-gray-800 transition">
+          Home
+        </a>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript for playing disturbance effect
+    const disturbanceVideo = document.getElementById('disturbance-video');
+    const avatarVideo = document.getElementById('avatar-video');
+
+    let playDisturbanceInterval;  // Declare disturbance interval globally
+
+    // Initially hide the disturbance video
+    disturbanceVideo.style.display = 'none';
+
+    // Function to show disturbance effect
+    function playDisturbance(callback) {
+      disturbanceVideo.style.display = 'block';  // Show the disturbance video
+      disturbanceVideo.play();  // Play the short disturbance video
+
+      // Hide disturbance video after it finishes (assuming 0.5 seconds duration)
+      setTimeout(() => {
+        disturbanceVideo.style.display = 'none';  // Hide the video after it plays
+
+        if (callback) callback();  // Execute callback if provided (e.g., switching to another video)
+      }, 500);  // Adjust this time if your disturbance video has a different duration
+    }
+
+    // Function to continuously play disturbance video every 10 seconds
+    function startDisturbanceLoop() {
+      playDisturbance();  // Play disturbance immediately on page load
+      playDisturbanceInterval = setInterval(playDisturbance, 10000);  // Play disturbance every 10 seconds
+    }
+
+    // Start disturbance effect loop on page load
+    window.onload = function () {
+      startDisturbanceLoop();  // Start disturbance loop when the page loads
+    };
+  </script>
+  
+</body>
+</html>

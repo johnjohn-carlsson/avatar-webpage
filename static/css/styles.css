@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.dialog-boxes {
+    width: 50%;
+}
+
+.input-box, .output-box {
+    margin-bottom: 20px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.output-box #avatar-response {
+    border: 1px solid #ccc;
+    padding: 10px;
+    min-height: 100px;
+}
+
+.avatar-window {
+    width: 40%;
+    text-align: center;
+}
+
+.avatar-window img {
+    width: 80%;
+    border: 2px solid #000;
+    border-radius: 5px;
+}

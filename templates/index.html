@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John-John.nu</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Hide the dropdown content by default */
+        .dropdown-content {
+            display: none;
+            flex-direction: column;
+        }
+
+        /* Show the dropdown when hovering over the button */
+        .dropdown:hover .dropdown-content {
+            display: flex;
+        }
+
+        /* Hover effect for the directory button */
+        .dropdown-button:hover {
+            background-color: rgba(31, 41, 55, 0.8); /* Darker shade on hover */
+        }
+
+        /* Hover effect for the dropdown links */
+        .dropdown-content a:hover {
+            background-color: rgba(55, 65, 81, 0.9); /* Slightly lighter gray */
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen relative">
+
+    <!-- Avatar Webcam Video - Takes 100% of the screen -->
+    <div id="avatar-webcam" class="absolute inset-0 z-0">
+        <video id="avatar-video" class="w-full h-full object-cover" autoplay loop muted>
+            <source src="{{ url_for('static', filename='videos/WIN_20240927_19_23_19_Pro.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <!-- Disturbance Effect Video -->
+        <video id="disturbance-video" class="absolute inset-0 w-full h-full object-cover z-10" muted>
+            <source src="{{ url_for('static', filename='videos/moving_disturbance_01.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Hover-based Dropdown menu in the top-left corner -->
+    <div class="dropdown fixed top-8 left-8 z-30">
+        <!-- Directory button -->
+        <button class="dropdown-button px-4 py-2 bg-gray-700 rounded-full text-white font-bold focus:outline-none">
+            Directory
+        </button>
+
+        <!-- Dropdown content (hidden by default, shown on hover) -->
+        <div class="dropdown-content bg-gray-800 bg-opacity-90 text-white mt-2 rounded-lg shadow-lg">
+            <a href="/cv" class="block px-4 py-2 hover:bg-gray-600">CV</a>
+            <a href="/about" class="block px-4 py-2 hover:bg-gray-600">About</a>
+            <a href="/portfolio" class="block px-4 py-2 hover:bg-gray-600">Portfolio</a>
+            <a href="/blog" class="block px-4 py-2 hover:bg-gray-600">Blog</a>
+            <a href="/contact" class="block px-4 py-2 hover:bg-gray-600">Contact</a>
+        </div>
+    </div>
+
+    <!-- Input and Response box overlay on top of the video -->
+    <div class="absolute inset-0 z-20 flex flex-col justify-end items-center p-8">
+        <div class="w-full max-w-lg space-y-4">
+            
+            <!-- Avatar's Response Box (with scrollable content and extra padding) -->
+            <div class="bg-gray-800 bg-opacity-70 p-4 rounded-full shadow-lg">
+                <div id="avatar-response" class="text-gray-100 p-4 bg-gray-700 bg-opacity-50 rounded-full min-h-[50px] max-h-16 overflow-y-auto">
+                    <!-- The avatar's response will be shown here -->
+                </div>
+            </div>
+
+            <!-- Input box -->
+            <div class="bg-gray-800 bg-opacity-70 p-4 rounded-full shadow-lg flex items-center space-x-4">
+                <form id="input-form" class="w-full flex space-x-4">
+                    <textarea id="user-input" rows="1" placeholder="Type a message..."
+                              class="w-full p-3 bg-gray-700 bg-opacity-50 text-gray-100 rounded-full outline-none resize-none focus:ring-2 focus:ring-blue-500"></textarea>
+                    <button type="submit"
+                            class="w-32 h-16 bg-gray-600 hover:bg-gray-800 text-white rounded-full shadow">
+                        Send
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- External JS File -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
