@@ -5,7 +5,7 @@ import os
 
 
 app = Flask(__name__)
-client = OpenAI(api_key="OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
 # Route for the homepage
@@ -76,7 +76,7 @@ def get_response():
 def text_to_speech(response_text):
     # Define constants for the script
     CHUNK_SIZE = 1024  # Size of chunks to read/write at a time
-    XI_API_KEY = "XI_API_KEY"  # Your API key for authentication
+    XI_API_KEY = os.getenv("XI_API_KEY")  # Your API key for authentication
     VOICE_ID = "KJPhhzABjNf2lS4ZqzPn"  # ID of the voice model to use
     TEXT_TO_SPEAK = response_text  # Text you want to convert to speech
     OUTPUT_PATH = "static/speech/output.mp3"  # Path to save the output audio file
