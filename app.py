@@ -21,6 +21,18 @@ def cv():
 def about():
     return render_template('about.html')
 
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+@app.route('/portfolio')
+def portfolio():
+    return render_template('portfolio.html')
+
+@app.route('/blog')
+def blog():
+    return render_template('blog.html')
+
 # Route to handle user input and get a response from GPT model
 @app.route('/get_response', methods=['POST'])
 def get_response():
