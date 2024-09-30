@@ -76,28 +76,85 @@ window.onload = function() {
 
 // Function to handle both typing effect and speech playback
 function typeResponseTextWithSpeech(responseText, audioUrl, speed = 50) {
-    let index = 0;
     const responseDiv = document.getElementById('avatar-response');
-    responseDiv.textContent = '';  // Clear previous content
+    responseDiv.innerHTML = '';  // Clear previous content
 
-    // Function to handle text typing
-    function typeNextLetter() {
-        if (index < responseText.length) {
-            responseDiv.textContent += responseText.charAt(index);  // Add next character
+    // Split the responseText into an array of text and link objects
+    const parsedResponse = parseResponseText(responseText);
+
+    let index = 0;
+
+    // Function to handle text typing with HTML content
+    function typeNextPart() {
+        if (index < parsedResponse.length) {
+            const part = parsedResponse[index];
+            let element;
+
+            if (part.type === 'text') {
+                element = document.createTextNode(part.content);
+            } else if (part.type === 'link') {
+                element = document.createElement('a');
+                element.href = part.url;
+                element.target = '_blank';  // Open link in a new tab
+                element.textContent = part.displayText;
+                element.style.color = '#0000EE';  // Optional: link color
+                element.style.textDecoration = 'underline';  // Optional: underline
+            }
+
+            responseDiv.appendChild(element);
             index++;
             responseDiv.scrollTop = responseDiv.scrollHeight;  // Auto-scroll to bottom
-            setTimeout(typeNextLetter, speed);  // Recursively call with variable delay
+
+            // Set timeout for the typing effect
+            setTimeout(typeNextPart, speed);
         }
     }
 
     // Start typing effect
-    typeNextLetter();
+    typeNextPart();
 
     // Play the audio
     if (audioUrl) {
         const audio = new Audio(audioUrl);
         audio.play();
     }
+}
+
+// Function to parse the responseText and extract links
+function parseResponseText(responseText) {
+    const regex = /\[(https?:\/\/[^\s\]]+)\]/g;
+    let match;
+    let lastIndex = 0;
+    const parts = [];
+
+    while ((match = regex.exec(responseText)) !== null) {
+        // Add text before the link
+        if (match.index > lastIndex) {
+            parts.push({
+                type: 'text',
+                content: responseText.substring(lastIndex, match.index)
+            });
+        }
+
+        // Add the link
+        parts.push({
+            type: 'link',
+            url: match[1],
+            displayText: match[1]  // You can modify this to show a different text
+        });
+
+        lastIndex = regex.lastIndex;
+    }
+
+    // Add any remaining text after the last link
+    if (lastIndex < responseText.length) {
+        parts.push({
+            type: 'text',
+            content: responseText.substring(lastIndex)
+        });
+    }
+
+    return parts;
 }
 
 // Function to submit form and handle response
